@@ -1,5 +1,5 @@
 **The University of Melbourne**
-# COMP30019 – Graphics and Interaction
+# COMP30019 – Graphics and Interactionn
 
 Final Electronic Submission (project): **4pm, Fri. 6 November**
 
