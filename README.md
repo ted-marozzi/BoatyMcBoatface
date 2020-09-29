@@ -47,7 +47,7 @@ Remember that _"this document"_ should be `well written` and formatted **appropr
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Student Name 1  | MainScene     |  Done |
+| Edward Marozzi  | MainScene     |  Done |
 | Student Name 2    | Shader      |  Testing |
 | Student Name 3    | README Format      |  Amazing! |
 
