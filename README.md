@@ -1,5 +1,5 @@
 **The University of Melbourne**
-# COMP30019 – Graphics and Interaction
+# COMP30019 – Graphics and Interactionn
 
 Final Electronic Submission (project): **4pm, Fri. 6 November**
 
@@ -56,7 +56,7 @@ Our game is a first person shooter (FPS) that....
 
 You can use emojis :+1: but do not over use it, we are looking for professional work. If you would not add them in your job, do not use them here! :shipit:
 
-	
+
 ## Technologies
 Project is created with:
 * Unity 2019.4.3f1
@@ -73,9 +73,9 @@ You can use images/gif by adding them to a folder in your repo:
 
 To create a gif from a video you can follow this [link](https://ezgif.com/video-to-gif/ezgif-6-55f4b3b086d4.mov).
 
-## Code Snippets 
+## Code Snippets
 
-You can include a code snippet here, but make sure to explain it! 
+You can include a code snippet here, but make sure to explain it!
 Do not just copy all your code, only explain the important parts.
 
 ```c#
@@ -87,8 +87,5 @@ public class firstPersonController : MonoBehaviour
       standMotion();
     }
 }
+
 ```
-
-
-
-
