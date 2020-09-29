@@ -9,7 +9,7 @@ You can add a link to your Gameplay Video here but you must have already submit 
 
 # Project-2 README
 
-You must modify this `README.md` that describes your application, specifically what it does, how to use it, and how you evaluated and improved it.
+You must modify this `README.md` that describes your application, specifically what it does, how to use it, and how you evaluated and improved it. 
 
 Remember that _"this document"_ should be `well written` and formatted **appropriately**. This is just an example of different formating tools available for you. For help with the format you can find a guide [here](https://docs.github.com/en/github/writing-on-github).
 
@@ -47,7 +47,7 @@ Remember that _"this document"_ should be `well written` and formatted **appropr
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Student Name 1  | MainScene     |  Done |
+| Edward Marozzi  | MainScene     |  Done |
 | Student Name 2    | Shader      |  Testing |
 | Student Name 3    | README Format      |  Amazing! |
 
