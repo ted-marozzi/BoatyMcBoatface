@@ -14,12 +14,10 @@ public class PlayerShipController : MonoBehaviour
     public float[] cannonOffset = { 0.0f, 1.0f, 5.8f };
 
     // Moving direction relative to cemara orientation
-    Vector3 forwardDirection = new Vector3(-1.0f, 0.0f, 0.0f);
-    Vector3 rightDirection = new Vector3(0.0f, 0.0f, 1.0f);
+    Vector3 forwardDirection = new Vector3(0.0f, 0.0f, 1.0f);
+    Vector3 rightDirection = new Vector3(1.0f, 0.0f, 0.0f);
 
     Vector3 movementDirection;
-
-    //float rotation = 0.0f;
 
     public GameObject cannonTemplate;
 
@@ -42,8 +40,7 @@ public class PlayerShipController : MonoBehaviour
 
         // Rotate towards its direction of movement
         this.transform.localRotation = Quaternion.LookRotation(movementDirection);
-        //this.transform.localRotation = Quaternion.Slerp(this.transform.localRotation, Quaternion.LookRotation(movementDirection), Time.deltaTime * rotateSpeed);
-
+        
         rb.position += movementDirection * Time.deltaTime * moveSpeed;
 
         //Fire
