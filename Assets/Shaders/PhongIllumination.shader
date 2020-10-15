@@ -17,7 +17,8 @@ Shader "Custom/Phong"
 	}
 	SubShader
 	{
-		
+
+
 		Tags { "RenderType" = "Opaque" }
  
 		//Base Pass 
@@ -26,9 +27,9 @@ Shader "Custom/Phong"
 			// For forward rendering, the Pass will calculate the ambient light, 
             // the most important parallel light, per-vertex/SH light source and LightMaps 
 			Tags{"LightMode" = "ForwardBase"}
- 
+		
 			CGPROGRAM
- 
+		
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -114,14 +115,14 @@ Shader "Custom/Phong"
 		Pass
 		{
 			//this is used to process other un-important lights, each lights will call this pass once
-
+	
 			Tags{"LightMode" = "ForwardAdd"}
  
 			//addtive mode, see https://docs.unity3d.com/Manual/SL-Blend.html
 			Blend OneMinusDstColor One
  
 			CGPROGRAM
- 
+		
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma multi_compile_fwdadd
