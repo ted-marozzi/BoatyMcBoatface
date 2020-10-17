@@ -18,6 +18,7 @@ Shader "Custom/Waves 1.3"
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
         _Transparency ("Transparency",Range(0,1)) = 0.9
+        _Ambient("AmbientPower", Range(0,10)) = 3
 
 
 
@@ -29,6 +30,10 @@ Shader "Custom/Waves 1.3"
         LOD 200
         
         CGPROGRAM
+        #include "Lighting.cginc"
+
+		//inlcude definition of USING_DIRECTION_LIGHT,POINT and SPOT 
+		#include "AutoLight.cginc"
 
         // Physically based Standard lighting model, and enable shadows on all light types 
         #pragma surface surf Phong alpha vertex:vert addshadow
@@ -56,15 +61,17 @@ Shader "Custom/Waves 1.3"
 		float _Diffuse;
 		float _Specular;
         float _Transparency;
+        float _Ambient;
 
         //Custom lighting model, used phong lighting model 
         half4 LightingPhong (SurfaceOutput s, half3 worldLightDir, half3 worldViewDir, half fAtt) {
-      
+
+
 			//normals in world space 
 			float3 worldNormal = s.Normal;
 
 			//ambient component
-			float3 ambient = s.Albedo  * UNITY_LIGHTMODEL_AMBIENT.xyz;
+			float3 ambient = s.Albedo  * UNITY_LIGHTMODEL_AMBIENT.xyz * _Ambient;
 
 			//LdotN
 			float LdotN = dot(worldLightDir,worldNormal);

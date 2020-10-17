@@ -12,6 +12,7 @@ Shader "Custom/Phong"
 		_Color("SurfaceColor",Color)  = (0,0,0,1)
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
+		_Ambient("AmbientPower", Range(0,10)) = 3
 		_MainTex("Texture",2D) = "white" {}
 		
 	}
@@ -37,12 +38,15 @@ Shader "Custom/Phong"
 			// fwdbase would becomes fwdadd for any additional lights in their own pass.
 			#pragma multi_compile_fwdbase
 			#include "Lighting.cginc"
+
+			#include "AutoLight.cginc"
  
 			float _Gloss;
 			float _Diffuse;
 			float4 _Color;
 			float _Specular;
 			uniform sampler2D _MainTex;
+			float _Ambient;
  
 			struct a2v {
 				float4 vertex : POSITION;
@@ -51,20 +55,26 @@ Shader "Custom/Phong"
 			};
  
 			struct v2f {
-				float4 vertex : SV_POSITION;
+				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD2;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
+
+				//calculate shadow and store shadow data in TEXCOORD3 
+				SHADOW_COORDS(3)
 			};
 
 		
 			v2f vert(a2v v)
 			{
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
+
+				//calculate shadow and store shadow data in TEXCOORD3
+				TRANSFER_SHADOW(o)
 				return o;
 			}
 
@@ -86,7 +96,7 @@ Shader "Custom/Phong"
 				float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 
 				//ambient component
-				float3 ambient = unlitColor * _Color.rgb * UNITY_LIGHTMODEL_AMBIENT.xyz;
+				float3 ambient = unlitColor * _Color.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb * _Ambient;
 
 				//Attenuation factor for directional light
 				float fAtt = 1.0;
@@ -100,11 +110,12 @@ Shader "Custom/Phong"
 				//specular component using  blinn-Phong approsimation:
 				//specular constant is contained in _specular.rgb
 				float3 halfDir = normalize(worldLightDir + worldViewDir);
-				float3 specular =  fAtt * _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
- 
-				
+				float3 specular =  _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
+
+
+				//built-in macro; calculating attenuation for diffrent type of lights
 				float4 returnColor;
-				returnColor.rgb = ambient.rgb + diffuse.rgb + specular.rgb;
+				returnColor.rgb = (ambient +  diffuse * SHADOW_ATTENUATION(i) + specular );
 				returnColor.a = _Color.a;
 				return returnColor;
 			}
@@ -122,10 +133,14 @@ Shader "Custom/Phong"
 			Blend OneMinusDstColor One
  
 			CGPROGRAM
+			// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct v2f members lightCoord)
+			//#pragma exclude_renderers d3d11
 		
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile_fwdadd
+
+			// same as multi_compile_fwdadd, but also includes ability for the lights to have real-time shadows.
+			#pragma multi_compile_fwdadd_fullshadows
 			#include "Lighting.cginc"
 
 			//inlcude definition of USING_DIRECTION_LIGHT,POINT and SPOT 
@@ -134,32 +149,41 @@ Shader "Custom/Phong"
  
 			float _Gloss;
 			float _Diffuse;
-
+	
 			float4 _Color;
 			float _Specular;
 			uniform sampler2D  _MainTex;
+			float _Ambient;
+
+			float _Reflection;
  
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 uv : TEXCOORD2;
-			
 			};
  
 			struct v2f {
-				float4 vertex : SV_POSITION;
+				float4 pos : SV_POSITION;
 				float4 uv : TEXCOORD2;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
+
+				//for storing shadows data; stooring into TEXCOORD3
+				SHADOW_COORDS(3)
 			};
  
 			v2f vert(a2v v)
 			{
 				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
+
+				//calculate shadow and store shadow data in TEXCOORD3
+				TRANSFER_SHADOW(o)
+ 
 				return o;
 			}
  
@@ -175,23 +199,32 @@ Shader "Custom/Phong"
 				//View vector in world space  
 				float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 
-				//light vector in world space
-				float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
-				
+				//directional light vector in world space
+				#ifdef USING_DIRECTIONAL_LIGHT  
+					float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+				#else
+					//vectors of other light sources in world space
+					float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz - i.worldPos.xyz);
+				#endif
+		
 				//diffuse component
 				float3 diffuse = unlitColor.rgb * _Color.rgb * _LightColor0.rgb * _Diffuse * saturate(dot(worldNormal, worldLightDir));
  
 				//specular component 
 				float3 halfDir = normalize(worldLightDir + worldViewDir);
-				float3 specular = _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
-
-				//Attenuation factor for directional light
-				float fAtt = 1.0;
+				float3 specular =  _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
+				
+				//built-in macro; calculating attenuation for diffrent type of lights
+				 UNITY_LIGHT_ATTENUATION(fAtt, i, i.worldPos);
  
-				//ambient lighting has been calculated in the last pass 
-				return float4 ((diffuse + specular) * fAtt, _Color.a);
+				//ambient lighting has been calculated in the last pass
+				//take shadow attenuation into account,  for more info seeing https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html 
+				return float4 (((diffuse* SHADOW_ATTENUATION(i) + specular) * fAtt), _Color.a);
 			}
 				ENDCG
-		}
+        }
 	}
+
+//call shadow casting pass
+FallBack  "Diffuse"
 }
