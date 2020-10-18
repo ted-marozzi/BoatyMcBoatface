@@ -46,11 +46,14 @@ public class AIMovement : MonoBehaviour
 
             if( ranDouble < chanceDirChange)
             {
-                rotDir = rotDir*-1;
-            } else if (ranDouble > chanceDirChange && ranDouble < 1 - chanceDirChange) {
+                rotDir = -1;
+                Debug.Log("Hi this is less than");
+            } else if (ranDouble >= chanceDirChange && ranDouble <= 1 - chanceDirChange) {
                 rotDir = 0;
-                
+            } else {
+                rotDir = 1;
             }
+            
         }
 
         keepFlat();
