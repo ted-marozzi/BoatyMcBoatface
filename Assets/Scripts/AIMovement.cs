@@ -6,17 +6,17 @@ using System;
 public class AIMovement : MonoBehaviour
 {
 
-    private float moveForce = 10f, chanceDirChange = 0.2f;
+    private float moveForce = 10f, chanceDirChange = 0.25f;
     public int seed = 1;
 
 
     private int rotDir = 1;
-    private float maxDistWall = 75f, rotScale = 0.1f, timer = 0f;
+    private float maxDistWall = 75f, rotScale = 0.25f, timer = 0f;
     
     
     
 
-    private Rigidbody rigidbody;
+    private new Rigidbody rigidbody;
     private Vector3 moveDir;
     public LayerMask toAvoid;
     private System.Random ran;
@@ -33,12 +33,12 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         timer += Time.deltaTime;
 
-        
         if(timer > 1f)
         {
-            
             timer = 0f;
             double ranDouble = ran.NextDouble();
 
@@ -47,12 +47,13 @@ public class AIMovement : MonoBehaviour
             if( ranDouble < chanceDirChange)
             {
                 rotDir = rotDir*-1;
+            } else if (ranDouble > chanceDirChange && ranDouble < 1 - chanceDirChange) {
+                rotDir = 0;
+                
             }
-            
         }
-        
-        
-        
+
+        keepFlat();
         
         if(Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid))
         {
@@ -65,6 +66,17 @@ public class AIMovement : MonoBehaviour
         moveDir = transform.forward;
         rigidbody.velocity = moveDir*moveForce;
 
+        
+    }
+
+    void keepFlat() {
+        
+        Vector3 tmp = transform.localEulerAngles;
+
+        tmp.x = 0;
+        tmp.z = 0;
+
+        transform.localEulerAngles = tmp;
 
     }
 
