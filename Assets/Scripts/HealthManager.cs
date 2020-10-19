@@ -10,21 +10,16 @@ public class HealthManager : MonoBehaviour
 {
     public int maxHP = 10;
     public int currentHP = 0;
-    public Text textbox;
+    //public Text textbox;
     string[] enemyTags = { "Enemy" };
 
-    //Health bar settings
-    public Vector2 healthBarPos = new Vector2(20, 40);
-    public Vector2 healthBarSize = new Vector2(60, 20);
-    Texture2D healthBarTexture;
+    public HealthBar healthBar;
 
     // Start is called before the first frame update
     void Start()
     {
         currentHP = maxHP;
-        UpdateHP(currentHP);
-        //Health Bar Initialize
-        healthBarTexture = new Texture2D(1, 1, TextureFormat.RGB24, false);
+        healthBar.SetHealth(currentHP);
     }
 
     // Update is called once per frame
@@ -36,14 +31,14 @@ public class HealthManager : MonoBehaviour
             // Show Gameover screen
             Debug.Log("GAME OVER");
         }
-        //UpdateHP(currentHP);
 
-        //TESTING ONLY start
+        // TESTING ONLY start
+        // Press P to due damage to player
         if (Input.GetKeyDown(KeyCode.P))
         {
             DamagePlayer(1);
         }
-        //TESTING ONLY end
+        // TESTING ONLY end
 
     }
 
@@ -65,31 +60,6 @@ public class HealthManager : MonoBehaviour
     public void DamagePlayer(int damage)
     {
         currentHP -= damage;
-
-        //healthBar.SetHealth(curHealth);
-    }
-
-    // Returns HP
-    public int GetHP()
-    {
-        return currentHP;
-    }
-
-    // Prints hp to textbox, will change to hp bar later.
-    void UpdateHP(int hp)
-    {
-        textbox.text = hp + "/" + maxHP;
-    }
-
-    //Show Health bar
-    void OnGUI()
-    {
-        GUI.BeginGroup(new Rect(healthBarPos.x, healthBarPos.y, healthBarSize.x, healthBarSize.y));
-        // draw the filled-in part:
-        GUI.BeginGroup(new Rect(0, 0, healthBarSize.x * currentHP / maxHP, healthBarSize.y));
-        GUI.Box(new Rect(0, 0, healthBarSize.x, healthBarSize.y), healthBarTexture);
-        GUI.EndGroup();
-
-        GUI.EndGroup();
+        healthBar.SetHealth(currentHP);
     }
 }
