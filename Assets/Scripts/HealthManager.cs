@@ -13,13 +13,18 @@ public class HealthManager : MonoBehaviour
     public Text textbox;
     string[] enemyTags = { "Enemy" };
 
-    //public HealthBar healthBar;
+    //Health bar settings
+    public Vector2 healthBarPos = new Vector2(20, 40);
+    public Vector2 healthBarSize = new Vector2(60, 20);
+    Texture2D healthBarTexture;
 
     // Start is called before the first frame update
     void Start()
     {
         currentHP = maxHP;
         UpdateHP(currentHP);
+        //Health Bar Initialize
+        healthBarTexture = new Texture2D(1, 1, TextureFormat.RGB24, false);
     }
 
     // Update is called once per frame
@@ -31,7 +36,15 @@ public class HealthManager : MonoBehaviour
             // Show Gameover screen
             Debug.Log("GAME OVER");
         }
-        UpdateHP(currentHP);
+        //UpdateHP(currentHP);
+
+        //TESTING ONLY start
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            DamagePlayer(1);
+        }
+        //TESTING ONLY end
+
     }
 
     // Used collisionExit to ensure there will only be one count per collision
@@ -49,7 +62,6 @@ public class HealthManager : MonoBehaviour
         
     }
 
-
     public void DamagePlayer(int damage)
     {
         currentHP -= damage;
@@ -66,6 +78,18 @@ public class HealthManager : MonoBehaviour
     // Prints hp to textbox, will change to hp bar later.
     void UpdateHP(int hp)
     {
-        textbox.text = "HP: " + hp;
+        textbox.text = hp + "/" + maxHP;
+    }
+
+    //Show Health bar
+    void OnGUI()
+    {
+        GUI.BeginGroup(new Rect(healthBarPos.x, healthBarPos.y, healthBarSize.x, healthBarSize.y));
+        // draw the filled-in part:
+        GUI.BeginGroup(new Rect(0, 0, healthBarSize.x * currentHP / maxHP, healthBarSize.y));
+        GUI.Box(new Rect(0, 0, healthBarSize.x, healthBarSize.y), healthBarTexture);
+        GUI.EndGroup();
+
+        GUI.EndGroup();
     }
 }
