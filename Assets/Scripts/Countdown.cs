@@ -15,8 +15,8 @@ public class Countdown : MonoBehaviour
     [Range(0, 60)]
     public int sec = 0;
 
-    [Range(0, 60)]
-    public int countdownRate;
+    [Range(1, 10)] 
+    public int countdownRate = 1;
 
     float time;
 
@@ -36,15 +36,13 @@ public class Countdown : MonoBehaviour
     void Update()
     {
         //counting down
-        if (time >= 0) {
-        time -=  Time.deltaTime * countdownRate;
-
-
+        if (time >= 0)
+        {
+            time -= Time.deltaTime * countdownRate;
+        }
+            
         //print out in format of 'min:sec'
         int timeInt = Mathf.RoundToInt(time);
         textComp.text =  "Time Left - " + (timeInt / 60).ToString() + ":" + (timeInt % 60).ToString();
-    }
-        
-
     }
 }
