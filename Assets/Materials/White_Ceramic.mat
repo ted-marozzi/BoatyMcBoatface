@@ -68,9 +68,9 @@ Material:
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Diffuse: 1
+    - _Diffuse: 0.942
     - _DstBlend: 0
-    - _Gloss: 143
+    - _Gloss: 82
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -79,9 +79,10 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Reflection: 1
+    - _RimAmount: 0.716
     - _Shininess: 10
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1
+    - _Specular: 0.717
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
@@ -89,4 +90,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.7140867, g: 0.7140867, b: 0.7140867, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}

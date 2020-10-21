@@ -8,12 +8,16 @@ Shader "Custom/Phong"
 	Properties
 	{
 
+
 		_Diffuse("DiffuseConstant", Range(0,1)) = 1
+		
 		_Color("SurfaceColor",Color)  = (0,0,0,1)
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
 		_Ambient("AmbientPower", Range(0,10)) = 3
 		_MainTex("Texture",2D) = "white" {}
+		_RimColor("Rim Color", Color) = (0,0,0,1)
+		_RimAmount("Rim Amount", Range(0, 1)) = 0.5
 		
 	}
 	SubShader
@@ -60,8 +64,6 @@ Shader "Custom/Phong"
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
 
-				//calculate shadow and store shadow data in TEXCOORD3 
-				SHADOW_COORDS(3)
 			};
 
 		
@@ -72,9 +74,6 @@ Shader "Custom/Phong"
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
-
-				//calculate shadow and store shadow data in TEXCOORD3
-				TRANSFER_SHADOW(o)
 				return o;
 			}
 
@@ -101,21 +100,20 @@ Shader "Custom/Phong"
 				//Attenuation factor for directional light
 				float fAtt = 1.0;
 
-				//LdotN 
-				float LdotN = dot(worldLightDir,worldNormal);
-
-				//diffus component
-				float3 diffuse = unlitColor * fAtt * _Color.rgb * _LightColor0.rgb * _Diffuse * saturate(LdotN);
+				
+				//cartoonlization； more info seeing  https://roystan.net/articles/toon-shader.html
+				//diffus component with  toon-like implementing
+				float3 diffuse = unlitColor * fAtt * _Color.rgb * _LightColor0.rgb * _Diffuse * (dot(worldNormal, worldLightDir) > 0?1:0);
 
 				//specular component using  blinn-Phong approsimation:
 				//specular constant is contained in _specular.rgb
 				float3 halfDir = normalize(worldLightDir + worldViewDir);
-				float3 specular =  _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
+				float3 specular =  smoothstep(0.005, 0.01, _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss)) * _Specular;
 
 
 				//built-in macro; calculating attenuation for diffrent type of lights
 				float4 returnColor;
-				returnColor.rgb = (ambient +  diffuse * SHADOW_ATTENUATION(i) + specular );
+				returnColor.rgb = (ambient +  diffuse + specular );
 				returnColor.a = _Color.a;
 				return returnColor;
 			}
@@ -146,6 +144,10 @@ Shader "Custom/Phong"
 			//inlcude definition of USING_DIRECTION_LIGHT,POINT and SPOT 
 			#include "AutoLight.cginc"
 
+
+
+				float4 _RimColor;
+			float _RimAmount;
  
 			float _Gloss;
 			float _Diffuse;
@@ -169,8 +171,6 @@ Shader "Custom/Phong"
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
 
-				//for storing shadows data; stooring into TEXCOORD3
-				SHADOW_COORDS(3)
 			};
  
 			v2f vert(a2v v)
@@ -180,10 +180,6 @@ Shader "Custom/Phong"
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
-
-				//calculate shadow and store shadow data in TEXCOORD3
-				TRANSFER_SHADOW(o)
- 
 				return o;
 			}
  
@@ -206,20 +202,32 @@ Shader "Custom/Phong"
 					//vectors of other light sources in world space
 					float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz - i.worldPos.xyz);
 				#endif
-		
-				//diffuse component
-				float3 diffuse = unlitColor.rgb * _Color.rgb * _LightColor0.rgb * _Diffuse * saturate(dot(worldNormal, worldLightDir));
+
+
+				//diffuse component with toon-like implementation
+				float3 diffuse = unlitColor.rgb * _Color.rgb * _LightColor0.rgb * _Diffuse * (dot(worldNormal, worldLightDir) > 0?1:0);
  
-				//specular component 
+				//specular component with toon-like implementation
 				float3 halfDir = normalize(worldLightDir + worldViewDir);
-				float3 specular =  _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss) * _Specular;
+				float3 specular =   smoothstep(0.005, 0.01, _LightColor0.rgb  * pow((dot(worldNormal, halfDir)) , _Gloss)) * _Specular;
+
+				//Rim lighting is the addition of illumination to the edges of an object to simulate reflected light or backlighting.
+
+				//the  back part of an object
+				float4 rimDot = 1 - dot(worldViewDir, worldNormal);
+
+				//cartoonlizing
+				float rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimDot);
+
+				//final color for rim
+				float4 rim = rimIntensity * _RimColor;
 				
 				//built-in macro; calculating attenuation for diffrent type of lights
 				 UNITY_LIGHT_ATTENUATION(fAtt, i, i.worldPos);
  
 				//ambient lighting has been calculated in the last pass
 				//take shadow attenuation into account,  for more info seeing https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html 
-				return float4 (((diffuse* SHADOW_ATTENUATION(i) + specular) * fAtt), _Color.a);
+				return float4 (((diffuse + specular + rim) * fAtt), _Color.a);
 			}
 				ENDCG
         }
