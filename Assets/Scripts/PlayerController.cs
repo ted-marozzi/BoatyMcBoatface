@@ -8,7 +8,7 @@ public class PlayerController: MonoBehaviour
     // Speed of Movement
     public float moveSpeed = 15f;
     public float rotateSpeed = 15f;
-    public float[] cannonOffset = { 0.0f, 1.0f, 5.8f };
+    public float[] cannonOffset = { 0.0f, 15f, 5.8f };
     public GameObject cannonTemplate;
 
     Rigidbody rb;

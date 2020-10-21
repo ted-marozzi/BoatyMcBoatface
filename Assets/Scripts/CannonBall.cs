@@ -9,7 +9,7 @@ public class CannonBall : MonoBehaviour
     public GameObject createOnDestroy;
     public Rigidbody rb;
     public float velocity;
-    public string tagToDamage;
+    public string tagToDamage = "Enemy";
     public bool type1;
 
     // Start is called before the first frame update
@@ -38,11 +38,11 @@ public class CannonBall : MonoBehaviour
         obj.transform.position = this.transform.position;
 
         // Destroy Object
-        /*
+        
         if (col.gameObject.tag == tagToDamage)
         {
             Destroy(col.gameObject);
         }
-        */
+        
     }
 }
