@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab30c5ffb24a89840b09e71decdb9121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createOnDestroy: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+  createOnDestroy: {fileID: 1376752308016353496, guid: f3aa4716ee7d7bd44a26839c559da20e,
+    type: 3}
   rb: {fileID: -764671934133060507}
   velocity: 50
   tagToDamage: Enemy
