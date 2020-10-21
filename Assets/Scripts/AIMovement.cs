@@ -47,7 +47,7 @@ public class AIMovement : MonoBehaviour
             if( ranDouble < chanceDirChange)
             {
                 rotDir = -1;
-                Debug.Log("Hi this is less than");
+                //Debug.Log("Hi this is less than");
             } else if (ranDouble >= chanceDirChange && ranDouble <= 1 - chanceDirChange) {
                 rotDir = 0;
             } else {
@@ -60,7 +60,7 @@ public class AIMovement : MonoBehaviour
         
         if(Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid))
         {
-            Debug.Log("Trying to avoid wall");
+            //Debug.Log("Trying to avoid wall");
             transform.Rotate(0, rotScale, 0);
         } else {
             transform.Rotate(0, rotScale*rotDir, 0);

@@ -28,6 +28,6 @@ public class CameraController : MonoBehaviour
         pitch -= Input.GetAxis("Mouse Y");
         yaw += Input.GetAxis("Mouse X");
 
-        rb.transform.localEulerAngles = new Vector3(pitch * pitchSpeed, yaw * yawSpeed, 0f);
+        //rb.transform.localEulerAngles = new Vector3(pitch * pitchSpeed, yaw * yawSpeed, 0f);
     }
 }
