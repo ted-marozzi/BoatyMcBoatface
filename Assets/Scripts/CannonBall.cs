@@ -9,40 +9,41 @@ public class CannonBall : MonoBehaviour
     public GameObject createOnDestroy;
     public Rigidbody rb;
     public float velocity;
-    public string tagToDamage = "Enemy";
-    public bool type1;
+    public string tagToDamage;
+
+    //Sound Effect
+    public AudioSource explodeAudio;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        explodeAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (type1)
-        {
-            //this.transform.Translate(velocity * Time.deltaTime);
-            rb.position += transform.forward * Time.deltaTime * velocity;
-
-        }
+        // Move towards its direction
+        rb.position += transform.forward * Time.deltaTime * velocity;
     }
 
     // Handle collisions
     void OnTriggerEnter(Collider col)
     {
-        // Destroy self
-        Destroy(this.gameObject);
-        GameObject obj = Instantiate(this.createOnDestroy);
-        obj.transform.position = this.transform.position;
-
-        // Destroy Object
-        
-        if (col.gameObject.tag == tagToDamage)
+        if (col.tag != "ParticleSystem")
         {
-            Destroy(col.gameObject);
+            // Play sound
+            explodeAudio.PlayOneShot(explodeAudio.clip, 1.0F);
+
+            // Explosion Effect
+            GameObject obj = Instantiate(this.createOnDestroy);
+            obj.transform.position = this.transform.position;
+
+            // Set invisible, wait for sound clip to finish, then destroy self
+            this.GetComponent<Renderer>().enabled = false;
+            Destroy(gameObject, explodeAudio.clip.length);
+
         }
-        
     }
 }
