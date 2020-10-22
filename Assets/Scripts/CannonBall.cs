@@ -9,7 +9,7 @@ public class CannonBall : MonoBehaviour
     public GameObject createOnDestroy;
     public Rigidbody rb;
     public float velocity;
-    public string tagToDamage;
+    public string tagToDamage = "Enemy";
 
     //Sound Effect
     public AudioSource explodeAudio;
@@ -44,6 +44,10 @@ public class CannonBall : MonoBehaviour
             this.GetComponent<Renderer>().enabled = false;
             Destroy(gameObject, explodeAudio.clip.length);
 
+            if (col.gameObject.tag == tagToDamage)  {
+                Destroy(col.gameObject);
+            }	           
+        
         }
     }
 }
