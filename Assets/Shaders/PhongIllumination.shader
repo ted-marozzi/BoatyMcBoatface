@@ -8,16 +8,16 @@ Shader "Custom/Phong"
 	Properties
 	{
 
-
-		_Diffuse("DiffuseConstant", Range(0,1)) = 1
 		
+		_Diffuse("DiffuseConstant", Range(0,1)) = 1
 		_Color("SurfaceColor",Color)  = (0,0,0,1)
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
 		_Ambient("AmbientPower", Range(0,10)) = 3
-		_MainTex("Texture",2D) = "white" {}
-		_RimColor("Rim Color", Color) = (0,0,0,1)
+		_RimColor("Rim Color", Color) = (1,1,1,1)
 		_RimAmount("Rim Amount", Range(0, 1)) = 0.5
+		_MainTex("Texture",2D) = "white" {}
+		//_BumpMap ("Bumpmap", 2D) = "bump" {}
 		
 	}
 	SubShader
@@ -38,24 +38,31 @@ Shader "Custom/Phong"
 			#pragma vertex vert
 			#pragma fragment frag
 
+			// expands to several variants to handle different fog types (off/linear/exp/exp2).
+			#pragma multi_compile_fog
+
 			//to ensure the shader compiles properly for the needed passes.
 			// fwdbase would becomes fwdadd for any additional lights in their own pass.
 			#pragma multi_compile_fwdbase
 			#include "Lighting.cginc"
 
 			#include "AutoLight.cginc"
- 
+
+			float4 _RimColor;
+			float _RimAmount;
 			float _Gloss;
 			float _Diffuse;
 			float4 _Color;
 			float _Specular;
 			uniform sampler2D _MainTex;
+			uniform sampler2D uv_BumpMap;
 			float _Ambient;
  
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
 				float4 uv : TEXCOORD2;
+
 			};
  
 			struct v2f {
@@ -63,6 +70,14 @@ Shader "Custom/Phong"
 				float4 uv : TEXCOORD2;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
+
+				//store fog data 
+				UNITY_FOG_COORDS(3)
+
+
+				//store shadow data
+				SHADOW_COORDS(4)
+
 
 			};
 
@@ -74,6 +89,9 @@ Shader "Custom/Phong"
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
+				TRANSFER_SHADOW(o)
+				//calculate fog data
+				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
 			}
 
@@ -108,12 +126,26 @@ Shader "Custom/Phong"
 				//specular component using  blinn-Phong approsimation:
 				//specular constant is contained in _specular.rgb
 				float3 halfDir = normalize(worldLightDir + worldViewDir);
-				float3 specular =  smoothstep(0.005, 0.01, _LightColor0.rgb  * pow(saturate(dot(worldNormal, halfDir)), _Gloss)) * _Specular;
+				float3 specular =  smoothstep(0.005, 0.01, _LightColor0.rgb  * pow(dot(worldNormal, halfDir), _Gloss)) * _Specular;
 
+
+				//the  back part of an object
+				float4 rimDot = 1 - dot(worldViewDir, worldNormal);
+
+				//cartoonlizing
+				float rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimDot);
+
+				//final color for rim
+				float4 rim = rimIntensity * _RimColor;
 
 				//built-in macro; calculating attenuation for diffrent type of lights
 				float4 returnColor;
-				returnColor.rgb = (ambient +  diffuse + specular );
+				returnColor.rgb = ambient +  (diffuse + specular) * SHADOW_ATTENUATION(i)+ rim;
+
+
+				//render fog
+				UNITY_APPLY_FOG(i.fogCoord, returnColor);
+	
 				returnColor.a = _Color.a;
 				return returnColor;
 			}
@@ -171,6 +203,10 @@ Shader "Custom/Phong"
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
 
+				UNITY_FOG_COORDS(3)
+				//store shadow data
+				SHADOW_COORDS(4)
+
 			};
  
 			v2f vert(a2v v)
@@ -180,6 +216,8 @@ Shader "Custom/Phong"
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
+				TRANSFER_SHADOW(o)
+				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
 			}
  
@@ -224,15 +262,27 @@ Shader "Custom/Phong"
 				
 				//built-in macro; calculating attenuation for diffrent type of lights
 				 UNITY_LIGHT_ATTENUATION(fAtt, i, i.worldPos);
- 
+
+
+
+
+				//built-in macro; calculating attenuation for diffrent type of lights
+				float4 returnColor;
+	
+				//render fog
+				UNITY_APPLY_FOG(i.fogCoord, returnColor);
+
 				//ambient lighting has been calculated in the last pass
-				//take shadow attenuation into account,  for more info seeing https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html 
-				return float4 (((diffuse + specular + rim) * fAtt), _Color.a);
+				//take shadow attenuation into account,  for more info seeing https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html
+				returnColor.rgb = ((diffuse + specular) *SHADOW_ATTENUATION(i) + rim) * fAtt;
+				returnColor.a = _Color.a;
+				return returnColor;
 			}
 				ENDCG
         }
 	}
 
 //call shadow casting pass
+
 FallBack  "Diffuse"
 }
