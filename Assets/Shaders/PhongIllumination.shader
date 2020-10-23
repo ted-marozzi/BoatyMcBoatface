@@ -154,8 +154,6 @@ Shader "Custom/Phong"
 				//Attenuation factor for directional light
 				float fAtt = 1.0;
 
-				
-				
 				//cartoonlization； more info seeing  https://roystan.net/articles/toon-shader.html
 				//diffus component with  toon-like implementing
 				float3 diffuse = unlitColor * fAtt * _Color.rgb * _LightColor0.rgb * _Diffuse * (lon > 0?1:0);
@@ -342,6 +340,17 @@ Shader "Custom/Phong"
 				ENDCG
         }
 	}
+
+
+	
+     Subshader
+     {
+		Tags { "RenderType" = "Invisble but casting shadow" }
+         UsePass "VertexLit/SHADOWCOLLECTOR"    
+         UsePass "VertexLit/SHADOWCASTER"
+     }
+ 
+ 
 
 //call shadow casting pass
 
