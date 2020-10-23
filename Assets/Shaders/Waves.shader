@@ -36,7 +36,7 @@ Shader "Custom/Waves 1.3"
 		#include "AutoLight.cginc"
 
         // Physically based Standard lighting model, and enable shadows on all light types 
-        #pragma surface surf Phong alpha vertex:vert addshadow
+        #pragma surface surf Phong alpha vertex:vert addshadow fullshadow
 
         // Use shader model 3.0 target, to get nicer looking lighting   
         #pragma target 3.0
@@ -84,7 +84,7 @@ Shader "Custom/Waves 1.3"
 			float3 specular =  _LightColor0.rgb * pow(saturate(dot(worldNormal, halfDir)),  _Gloss) * _Specular;
  
             //Phong lighting
-			return float4 (ambient + (diffuse + specular) * fAtt, _Transparency);
+			return float4 (ambient+ (diffuse + specular) * fAtt, _Transparency);
         }
 
         // found on htps://catlikecoding.com/unity/tutorials/flow/waves/
