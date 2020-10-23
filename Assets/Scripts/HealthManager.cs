@@ -10,9 +10,12 @@ public class HealthManager : MonoBehaviour
 {
     public int maxHP = 10;
     public int currentHP = 0;
-    string[] enemyTags = { "Enemy" };
+    string[] enemyTags = { "Enemy" } ;
+    string cannonTag = "Cannonball";
 
     public HealthBar healthBar;
+    public int damageByCollision;
+    public int damageByCannon;
 
     // Start is called before the first frame update
     void Start()
@@ -43,17 +46,21 @@ public class HealthManager : MonoBehaviour
 
     // Used collisionExit to ensure there will only be one count per collision
     void OnCollisionExit(Collision col) {
+
         // Handles collision with enemy
         foreach(string tag in enemyTags)
         {
             if (col.gameObject.tag == tag)
             {
-                DamagePlayer(1);
-
-                Destroy(col.gameObject); //Destroy the rubber duck, only for testing
+                DamagePlayer(damageByCollision);
             }
         }
-        
+
+        // Handles collision with cannonball (get hit by enemy)
+        if (col.gameObject.tag == cannonTag)
+        {
+            DamagePlayer(damageByCannon);
+        }
     }
 
     public void DamagePlayer(int damage)
