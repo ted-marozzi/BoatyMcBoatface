@@ -13,9 +13,9 @@ Shader "Custom/Phong"
 		_Color("SurfaceColor",Color)  = (0,0,0,1)
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
-		_Ambient("AmbientPower", Range(0,10)) = 3
+		_Ambient("AmbientPower", Range(0,1)) = 0.8
 		_RimColor("Rim Color", Color) = (1,1,1,1)
-		_RimAmount("Rim Amount", Range(0, 1)) = 0.5
+		_RimAmount("Rim Amount", Range(0, 1)) = 1
 		_MainTex("Texture",2D) = "white" {}
 		//_BumpMap ("Bumpmap", 2D) = "bump" {}
 		
@@ -54,20 +54,24 @@ Shader "Custom/Phong"
 			float _Diffuse;
 			float4 _Color;
 			float _Specular;
+
 			uniform sampler2D _MainTex;
+
+			float4 _MainTex_ST;
+
 			uniform sampler2D uv_BumpMap;
 			float _Ambient;
  
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
-				float4 uv : TEXCOORD2;
+				float2 uv : TEXCOORD2;
 
 			};
  
 			struct v2f {
 				float4 pos : SV_POSITION;
-				float4 uv : TEXCOORD2;
+				float2 uv : TEXCOORD2;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
 
@@ -88,8 +92,13 @@ Shader "Custom/Phong"
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
-				o.uv = v.uv;
+			
+				//activate tile  and offset parameter for texture
+				o.uv = TRANSFORM_TEX (v.uv, _MainTex);
+
+				//calculate shadow data
 				TRANSFER_SHADOW(o)
+
 				//calculate fog data
 				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
@@ -99,9 +108,8 @@ Shader "Custom/Phong"
 			//phong lighting implementation
 			float4 frag(v2f i) : SV_Target
 			{
-
-				// Sample the texture for the "unlit" colour for this pixel
-				float4 unlitColor = tex2D(_MainTex, i.uv);
+				
+			
 
 				//normals in world space
 				float3 worldNormal = normalize(i.worldNormal);
@@ -112,12 +120,21 @@ Shader "Custom/Phong"
 				//view vector in world space
 				float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 
+
+				float lon = (dot(worldNormal, worldLightDir) > 0?1:0);
+
+				
+	
+				// Sample the texture for the "unlit" colour for this pixel
+				float4 unlitColor = tex2D(_MainTex, i.uv);
+
 				//ambient component
 				float3 ambient = unlitColor * _Color.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb * _Ambient;
 
 				//Attenuation factor for directional light
 				float fAtt = 1.0;
 
+				
 				
 				//cartoonlization； more info seeing  https://roystan.net/articles/toon-shader.html
 				//diffus component with  toon-like implementing
@@ -186,7 +203,12 @@ Shader "Custom/Phong"
 	
 			float4 _Color;
 			float _Specular;
-			uniform sampler2D  _MainTex;
+
+
+			uniform sampler2D _MainTex;
+
+			float4 _MainTex_ST;
+
 			float _Ambient;
 
 			float _Reflection;
@@ -194,12 +216,12 @@ Shader "Custom/Phong"
 			struct a2v {
 				float4 vertex : POSITION;
 				float3 normal : NORMAL;
-				float4 uv : TEXCOORD2;
+				float2 uv : TEXCOORD2;
 			};
  
 			struct v2f {
 				float4 pos : SV_POSITION;
-				float4 uv : TEXCOORD2;
+				float2 uv : TEXCOORD2;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
 
@@ -216,6 +238,10 @@ Shader "Custom/Phong"
 				o.worldNormal = UnityObjectToWorldNormal(v.normal);
 				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				o.uv = v.uv;
+
+							
+				o.uv = TRANSFORM_TEX (v.uv, _MainTex);
+
 				TRANSFER_SHADOW(o)
 				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;

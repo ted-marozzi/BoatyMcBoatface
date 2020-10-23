@@ -84,7 +84,7 @@ Shader "Custom/Waves 1.3"
 			float3 specular =  _LightColor0.rgb * pow(saturate(dot(worldNormal, halfDir)),  _Gloss) * _Specular;
  
             //Phong lighting
-			return float4 (ambient + (diffuse + specular) * fAtt, _Transparency);
+			return float4 (ambient+ (diffuse + specular) * fAtt, _Transparency);
         }
 
         // found on htps://catlikecoding.com/unity/tutorials/flow/waves/
