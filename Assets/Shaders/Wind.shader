@@ -107,6 +107,7 @@ Shader "Polygon Wind/Tree" {
                     fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Tint;
                     o.Albedo = c.rgb;
                     o.Alpha = c.a;
+
                 }
 
         ENDCG
