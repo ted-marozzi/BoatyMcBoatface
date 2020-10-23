@@ -10,7 +10,6 @@ public class HealthManager : MonoBehaviour
 {
     public int maxHP = 10;
     public int currentHP = 0;
-    //public Text textbox;
     string[] enemyTags = { "Enemy" };
 
     public HealthBar healthBar;

@@ -5,44 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // Movement
+    // Controller
     public float moveSpeed = 15f;
     public float rotateSpeed = 15f;
     Rigidbody rb;
     float rotate;
-
-    // Cannon
-    public Vector3 cannonOffset;
-    public GameObject cannonTemplate;
-    public float fireInterval;
-    float timecount;
-
+    CannonControl cannon;
 
     // Key Assignment
     KeyCode forwardKey = KeyCode.W;
     KeyCode leftKey = KeyCode.A;
     KeyCode rightKey = KeyCode.D;
     KeyCode fireKey = KeyCode.Space;
-
-    //Sound Effect
-    AudioSource fireAudio;
-
-    //Particle Effect
-    public GameObject fireEffect;
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        cannon = GetComponent<CannonControl>();
         rotate = 0f;
-        fireAudio = GetComponent<AudioSource>();
-        timecount = 0.0f;
     }
 
 
     void Update()
     {
-        timecount += Time.deltaTime;
-
+        
         // Movement
         float df = 0.0f, r = 0.0f;
         if (Input.GetKey(forwardKey)) { df += 1.0f; }
@@ -53,22 +40,9 @@ public class PlayerController : MonoBehaviour
         rb.transform.localEulerAngles = new Vector3(0f, rotate, 0f) * rotateSpeed;
 
         // Fire Cannon
-        if (Input.GetKeyDown(fireKey) && timecount > fireInterval)
+        if (Input.GetKeyDown(fireKey))
         {
-            Vector3 cannonPos = this.transform.localPosition + (transform.right * cannonOffset.x) + (transform.up * cannonOffset.y) + (transform.forward * cannonOffset.z);
-
-            //Effects
-            fireAudio.PlayOneShot(fireAudio.clip, 0.7F);
-            GameObject obj = Instantiate(this.fireEffect);
-            obj.transform.SetParent(this.transform);
-            obj.transform.position = cannonPos;
-
-            //Create Cannonball
-            GameObject cannonball = GameObject.Instantiate<GameObject>(cannonTemplate);
-            cannonball.transform.localRotation = this.transform.localRotation;
-            cannonball.transform.localPosition = cannonPos;
-
-            timecount = 0.0f;
+            cannon.fireCannon();
         }
     }
 }
