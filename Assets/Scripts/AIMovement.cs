@@ -57,8 +57,15 @@ public class AIMovement : MonoBehaviour
         }
 
         keepFlat();
-        
-        if(Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid))
+        float rayAng = 30f;
+        Vector3 leftRay = Quaternion.Euler(0, rayAng, 0) * transform.forward;
+        Vector3 rightRay = Quaternion.Euler(0, rayAng, 0) * transform.forward;
+        if(
+            Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid)
+            || Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid)
+            || Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid)
+
+        )
         {
             //Debug.Log("Trying to avoid wall");
             transform.Rotate(0, rotScale, 0);
