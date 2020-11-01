@@ -15,7 +15,7 @@ Shader "Custom/Phong"
 		_Specular("SpecularPower", Range(0,1)) = 1
 		_Ambient("AmbientPower", Range(0,1)) = 0.8
 		_RimColor("Rim Color", Color) = (1,1,1,1)
-		_RimAmount("Rim Amount", Range(0, 1)) = 1
+		_RimAmount("Rim Amount", Range(0, 2)) = 1
 		_MainTex("Texture",2D) = "white" {}
 		_BumpMap ("Normal map", 2D) = "bump" {}
 		
