@@ -9,6 +9,7 @@ public class ButtonControl : MonoBehaviour
 {
     public GameObject quitConform;
     public GameObject levelsMenu;
+    public GameObject creditsMenu;
     public GameObject tutorialMessage;
     public GameObject LevelControl;
 
@@ -63,6 +64,16 @@ public class ButtonControl : MonoBehaviour
     public void CloseLevelsMenu()
     {
         levelsMenu.SetActive(false);
+    }
+
+    // Credits Menu
+    public void ShowCreditsMenu()
+    {
+        creditsMenu.SetActive(true);
+    }
+    public void CloseCreditsMenu()
+    {
+        creditsMenu.SetActive(false);
     }
 
     // Other Messages
