@@ -17,21 +17,26 @@ public class HealthManager : MonoBehaviour
     public int damageByCollision;
     public int damageByCannon;
 
+    public GameObject LevelControl;
+    bool gameOn;
+
     // Start is called before the first frame update
     void Start()
     {
         currentHP = maxHP;
         healthBar.SetHealth(currentHP);
+        gameOn = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Handles Gameover
-        if (currentHP <= 0)
+        if (currentHP <= 0 && gameOn)
         {
-            // Show Gameover screen
-            Debug.Log("GAME OVER");
+            // GAME OVER
+            LevelControl.GetComponent<LevelGeneralControl>().GameOver();
+
         }
 
         // TESTING ONLY start
@@ -65,7 +70,15 @@ public class HealthManager : MonoBehaviour
 
     public void DamagePlayer(int damage)
     {
-        currentHP -= damage;
-        healthBar.SetHealth(currentHP);
+        if (gameOn)
+        {
+            currentHP -= damage;
+            healthBar.SetHealth(currentHP);
+        }
+    }
+
+    public void playerHealthOff()
+    {
+        this.gameOn = false;
     }
 }
