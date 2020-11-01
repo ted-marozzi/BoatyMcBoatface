@@ -56,4 +56,9 @@ public class PlayerController : MonoBehaviour
     {
         this.gameOn = false;
     }
+
+    public void playerControlOn()
+    {
+        this.gameOn = true;
+    }
 }

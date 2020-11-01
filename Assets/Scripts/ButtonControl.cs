@@ -8,10 +8,23 @@ using UnityEngine.SceneManagement;
 public class ButtonControl : MonoBehaviour
 {
     public GameObject quitConform;
+    public GameObject tutorialMessage;
+    public GameObject LevelControl;
+
     string levelOne = "Level1";
     string levelTwo = "Level2";
     string levelThree = "Level3";
     string MainMenu = "MainMenu";
+
+    // Pause and Resume
+    public void PauseGame()
+    {
+        LevelControl.GetComponent<LevelGeneralControl>().PauseGame();
+    }
+    public void ResumeGame()
+    {
+        LevelControl.GetComponent<LevelGeneralControl>().ResumeGame();
+    }
 
     // Level Switching
     public void LoadLevelOne()
@@ -39,5 +52,12 @@ public class ButtonControl : MonoBehaviour
     public void CloseQuitConfirm()
     {
         quitConform.SetActive(false);
+    }
+
+    // Other Messages
+    public void CloseTutorial()
+    {
+        tutorialMessage.SetActive(false);
+        ResumeGame();
     }
 }
