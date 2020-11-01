@@ -11,6 +11,7 @@ public class LevelGeneralControl : MonoBehaviour
     // Pop-up Messages
     public GameObject GameOverMessage;
     public GameObject LevelClearMessage;
+    public GameObject pauseMenu;
 
     // Player
     public GameObject playerBoat;
@@ -26,7 +27,7 @@ public class LevelGeneralControl : MonoBehaviour
     {
         if (gameOn)
         {
-            // Turn off Player Control
+            // Turn off Player Health & Control
             playerBoat.GetComponent<HealthManager>().playerHealthOff();
             playerBoat.GetComponent<PlayerController>().playerControlOff();
             // Show Game Over
@@ -39,12 +40,28 @@ public class LevelGeneralControl : MonoBehaviour
     {
         if (gameOn)
         {
-            // Turn off Player Control
+            // Turn off Player Health & Control
             playerBoat.GetComponent<HealthManager>().playerHealthOff();
             playerBoat.GetComponent<PlayerController>().playerControlOff();
-            // Show Game Over
+            // Show Level Clear
             LevelClearMessage.SetActive(true);
             gameOn = false;
         }
+    }
+
+    public void PauseGame()
+    {
+        // Turn off Player Control
+        playerBoat.GetComponent<PlayerController>().playerControlOff();
+        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        // Turn on Player Control
+        playerBoat.GetComponent<PlayerController>().playerControlOn();
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
     }
 }
