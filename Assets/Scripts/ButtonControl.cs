@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class ButtonControl : MonoBehaviour
 {
     public GameObject quitConform;
+    public GameObject tutorialMessage;
     public GameObject LevelControl;
 
     string levelOne = "Level1";
@@ -51,5 +52,12 @@ public class ButtonControl : MonoBehaviour
     public void CloseQuitConfirm()
     {
         quitConform.SetActive(false);
+    }
+
+    // Other Messages
+    public void CloseTutorial()
+    {
+        tutorialMessage.SetActive(false);
+        ResumeGame();
     }
 }

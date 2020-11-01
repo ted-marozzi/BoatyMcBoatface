@@ -12,15 +12,22 @@ public class LevelGeneralControl : MonoBehaviour
     public GameObject GameOverMessage;
     public GameObject LevelClearMessage;
     public GameObject pauseMenu;
+    public GameObject tutorialMessage;
 
     // Player
     public GameObject playerBoat;
 
+    public bool showTutorial;
     bool gameOn;
 
     void Start()
     {
         gameOn = true;
+        if (showTutorial)
+        {
+            tutorialMessage.SetActive(true);
+            PauseGame();
+        }
     }
 
     public void GameOver()
