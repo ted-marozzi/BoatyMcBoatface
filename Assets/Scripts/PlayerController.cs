@@ -17,13 +17,15 @@ public class PlayerController : MonoBehaviour
     KeyCode leftKey = KeyCode.A;
     KeyCode rightKey = KeyCode.D;
     KeyCode fireKey = KeyCode.Space;
-    
+
+    bool gameOn;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         cannon = GetComponent<CannonControl>();
         rotate = 0f;
+        gameOn = true;
     }
 
 
@@ -35,14 +37,23 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(forwardKey)) { df += 1.0f; }
         if (Input.GetKey(leftKey)) { r -= 1.0f; }
         if (Input.GetKey(rightKey)) { r += 1.0f; }
-        rb.position += transform.forward * df * Time.deltaTime * moveSpeed;
         rotate += r;
-        rb.transform.localEulerAngles = new Vector3(0f, rotate, 0f) * rotateSpeed;
+        if (gameOn)
+        {
+            rb.position += transform.forward * df * Time.deltaTime * moveSpeed;
+            rb.transform.localEulerAngles = new Vector3(0f, rotate, 0f) * rotateSpeed;
+        }
+        
 
         // Fire Cannon
-        if (Input.GetKeyDown(fireKey))
+        if (Input.GetKeyDown(fireKey) && gameOn)
         {
             cannon.fireCannon();
         }
+    }
+
+    public void playerControlOff()
+    {
+        this.gameOn = false;
     }
 }

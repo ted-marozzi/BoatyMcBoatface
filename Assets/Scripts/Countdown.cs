@@ -19,6 +19,9 @@ public class Countdown : MonoBehaviour
     public int countdownRate = 1;
 
     float time;
+    bool timerOn;
+
+    public GameObject LevelControl;
 
     // Start is called before the first frame update
     void Start()
@@ -30,17 +33,26 @@ public class Countdown : MonoBehaviour
         //gross time in seconds
         time = min * 60 + sec;
 
+        timerOn = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //counting down
-        if (time >= 0)
+        if (timerOn)
         {
-            time -= Time.deltaTime * countdownRate;
-        }
-            
+            //counting down
+            if (time > 0)
+            {
+                time -= Time.deltaTime * countdownRate;
+            }
+            else
+            {
+                time = 0;
+                timerOn = false;
+                LevelControl.GetComponent<LevelGeneralControl>().LevelClear();
+            }
+        }  
         //print out in format of 'min:sec'
         int timeInt = Mathf.RoundToInt(time);
         textComp.text =  "Time Left - " + (timeInt / 60).ToString() + ":" + (timeInt % 60).ToString();
