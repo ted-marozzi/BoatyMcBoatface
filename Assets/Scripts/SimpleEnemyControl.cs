@@ -44,7 +44,7 @@ public class SimpleEnemyControl : MonoBehaviour
         if (timer>5.0f + var)
         {
             timer = 0;
-            //cannon.fireCannon();
+            cannon.fireCannon();
         }
     }
     
