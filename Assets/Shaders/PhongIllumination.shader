@@ -15,7 +15,7 @@ Shader "Custom/Phong"
 		_Specular("SpecularPower", Range(0,1)) = 1
 		_Ambient("AmbientPower", Range(0,1)) = 0.8
 		_RimColor("Rim Color", Color) = (1,1,1,1)
-		_RimAmount("Rim Amount", Range(0, 2)) = 1
+		_RimAmount("Rim Amount", Range(0, 2)) = 0.9
 		_MainTex("Texture",2D) = "white" {}
 		_BumpMap ("Normal map", 2D) = "bump" {}
 		
@@ -32,6 +32,7 @@ Shader "Custom/Phong"
 			// For forward rendering, the Pass will calculate the ambient light, 
             // the most important parallel light, per-vertex/SH light source and LightMaps 
 			Tags{"LightMode" = "ForwardBase"}
+
 		
 			CGPROGRAM
 		
@@ -78,14 +79,11 @@ Shader "Custom/Phong"
                 float3 tspace1 : TEXCOORD7;
                 float3 tspace2 : TEXCOORD8;
 
-
 				//store fog data 
 				UNITY_FOG_COORDS(3)
 
 				//store shadow data
 				SHADOW_COORDS(4)
-
-
 			};
 
 		
@@ -103,7 +101,7 @@ Shader "Custom/Phong"
 				//seeing https://forum.unity.com/threads/what-is-tangent-w-how-to-know-whether-its-1-or-1-tangent-w-vs-unity_worldtransformparams-w.468395/
                 float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
 
-				//Bitagemt, seeing
+				//Bitagemt
                 float3 worldBitangent = cross(o.worldNormal, o.worldTangent) * tangentSign;
 
                 // store the tangent space matrix
@@ -128,7 +126,11 @@ Shader "Custom/Phong"
 
 			float4 frag(v2f i) : SV_Target
 			{
-				
+
+
+				// Sample the texture for the "unlit" colour for this pixel
+				float4 unlitColor = tex2D(_MainTex, i.uv);
+
 				// sample the normal map, and decode from the Unity encoding
                 float3 tnormal = UnpackNormal(tex2D(_BumpMap, i.uv));
 
@@ -139,24 +141,23 @@ Shader "Custom/Phong"
                 worldNormal.z = dot(i.tspace2, tnormal);
 
 				//light vector in  world space
-				float3 worldLightDir = normalize(UnityWorldSpaceLightDir(i.worldPos));
+				float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+
 
 				//view vector in world space
 				float3 worldViewDir = normalize(UnityWorldSpaceViewDir(i.worldPos));
 				float lon = (dot(worldNormal, worldLightDir) > 0?1:0);
 
-				// Sample the texture for the "unlit" colour for this pixel
-				float4 unlitColor = tex2D(_MainTex, i.uv);
 
 				//ambient component
 				float3 ambient = unlitColor * _Color.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb * _Ambient;
 
 				//Attenuation factor for directional light
-				float fAtt = 1.0;
+				float fAtt = 1;
 
 				//cartoonlization； more info seeing  https://roystan.net/articles/toon-shader.html
 				//diffus component with  toon-like implementing
-				float3 diffuse = unlitColor * fAtt * _Color.rgb * _LightColor0.rgb * _Diffuse * (lon > 0?1:0);
+				float3 diffuse = unlitColor * fAtt * _Color.rgb * _LightColor0.rgb * _Diffuse * lon;
 
 				//specular component using  blinn-Phong approsimation:
 				//specular constant is contained in _specular.rgb
@@ -175,7 +176,7 @@ Shader "Custom/Phong"
 
 				//built-in macro; calculating attenuation for diffrent type of lights
 				float4 returnColor;
-				returnColor.rgb = ambient +  (diffuse + specular) * SHADOW_ATTENUATION(i);
+				returnColor.rgb = (ambient +  diffuse + specular) * SHADOW_ATTENUATION(i) + rim;
 
 				//render fog
 				UNITY_APPLY_FOG(i.fogCoord, returnColor);	
@@ -230,7 +231,7 @@ Shader "Custom/Phong"
 				float4 pos : SV_POSITION;
 				float3 worldPos : TEXCOORD0;
 				float3 worldNormal : TEXCOORD1;
-				float2 uv : TEXCOORD2;
+				float2 uv : TEXCOORD9;
 				float3 worldTangent : TEXCOORD5;
 				float3 tspace0 : TEXCOORD6;
                 float3 tspace1 : TEXCOORD7;
@@ -260,7 +261,7 @@ Shader "Custom/Phong"
 				//seeing https://forum.unity.com/threads/what-is-tangent-w-how-to-know-whether-its-1-or-1-tangent-w-vs-unity_worldtransformparams-w.468395/
                 float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
 
-				//Bitagemt, seeing
+				//Bitagemt
                 float3 worldBitangent = cross(o.worldNormal, o.worldTangent) * tangentSign;
 
                 // store the tangent space matrix
@@ -333,7 +334,7 @@ Shader "Custom/Phong"
 
 				//ambient lighting has been calculated in the last pass
 				//take shadow attenuation into account,  for more info seeing https://docs.unity3d.com/Manual/SL-VertexFragmentShaderExamples.html
-				returnColor.rgb = ((diffuse + specular) *SHADOW_ATTENUATION(i) + rim) * fAtt;
+				returnColor.rgb = ((diffuse + specular) * fAtt * SHADOW_ATTENUATION(i) + rim);
 				returnColor.a = _Color.a;
 				return returnColor;
 			}
