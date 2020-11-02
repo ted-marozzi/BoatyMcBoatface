@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3506913418879546277}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 4, z: -4.25}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   createOnDestroy: {fileID: 1376752308016353496, guid: f3aa4716ee7d7bd44a26839c559da20e,
     type: 3}
   rb: {fileID: -764671934133060507}
-  velocity: 50
+  velocity: 0.7
   tagToDamage: Enemy
   explodeAudio: {fileID: 4956138355687454268}
 --- !u!54 &-764671934133060507

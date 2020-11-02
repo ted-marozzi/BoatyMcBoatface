@@ -5,8 +5,8 @@ using System;
 
 public class AIMovement : MonoBehaviour
 {
-
-    private float moveForce = 10f, chanceDirChange = 0.25f;
+    private float moveForce = 0.5f;
+    private float chanceDirChange = 0.25f;
     public int seed = 1;
 
 
