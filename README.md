@@ -23,10 +23,10 @@ https://www.youtube.com/watch?v=FDcy9M_bOSY&t=1s
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Edward Marozzi  | Enemy & Enemy AI     |  Done |
+| Edward Marozzi  | Enemies & Enemy AI     |  Done |
 | Bixin Li    | Player Controls & Camera      |  Done |
 | Zhirui Xin    | Environments & Scenes      |  Done |
-| Mehmet Koseoglu    | Water Effects & Documentation      |  Done |
+| Mehmet Koseoglu    | Water Effects & Documentation/Evaluation      |  Done |
 
 ## Explanation of the game
 
@@ -48,20 +48,42 @@ These changes were made either due to the evaluations the game received, or inte
 
 ## How to Guide
 
+Explanation of UI and controls in general
+
 ## Objects and Entities
+
+The objects and entities in the game can be grouped in two categories, the ones that form the **environment** such as the interior of the bathroom in level 1, or the buildings and trees in level 2, and the ones that are **mobile objects** such as the player boat, ducks and enemy ships.
+
+All of these 3D objects and entities were either found online if they were free to use, or were created using 3D modelling tools. The environment objects such as the bathtub and pool create a boundary for the player to move in due to having colliders, while the rest of the environment objects are low detail objects that make the levels look good that are not interact-able. The player boat, ducks and ships all have colliders that keep them from moving beyond the borders of the game. These objects are also bound by the scripts that define their movement, ability to shoot, and health where relevant.
+
+All of the objects in the game use a Toon Shader that gives the objects a cartoonish look and gloss in order to fit the theme and look of the game. Water also has a cartoonish look, that is not strictly realistic, but still has realistic looking waves and some transparency.
+
+Objects like the enemy ships and ducks can collide with the player boat, which causes the player to lose health. They can also be destroyed by cannon fire. Cannon balls are entities that are shot from ships, they get destroyed when they collide with another object, if the object is the player boat, it loses health. If cannon balls hit the ducks or the enemy ships, they get destroyed.
+
+The camera entity will be explained in detail in the following section.
 
 ## Graphics Pipeline and Camera
 
+Graphics Pipeline? Details on camera
+
 ## Shaders
 
+Two main shaders are used in our game. One is the Unity Toon Shader, that gives the objects their glossy cartoonish look, and the other is the water shader that gives it the realistic waves effect. The shaders work with the Phong illumination model. Along with the shaders, there are various particle effects for when objects get destroyed, or fog effects in various environments.
+
+Explain shaders and illumination in detail
+
 ## Evaluation
+
 Description of the querying and observational methods used, including: description of the participants (how many, demographics), description of the methodology (which techniques did you use, what did you have participants do, how did you record the data), and feedback gathered.
 
 ## Technologies
+
 A statement about any code/APIs you have sourced/used from the internet that is not your own
+talk about the shaders found online, how waves were implemented, models that were found online etc.
 
 Project is created with:
 * Unity 2019.4.3f1
 
 ## Contributions of Team Members
-A description of the contributions made by each member of the group.
+
+A description of the contributions made by each member of the group. Briefly mention the contributions of team members.
