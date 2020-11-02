@@ -6,12 +6,12 @@ using System;
 public class AIMovement : MonoBehaviour
 {
 
-    private float moveForce = 10f, chanceDirChange = 0.25f;
+    private float moveForce = 0.3f, chanceDirChange = 0.25f;
     public int seed = 1;
 
 
     private int rotDir = 1;
-    private float maxDistWall = 75f, rotScale = 0.25f, timer = 0f;
+    private float maxDistWall = 0.2f, rotScale = 0.3f, timer = 0f;
     
     
     
