@@ -48,7 +48,11 @@ These changes were made either due to the evaluations the game received, or inte
 
 ## How to Guide
 
-Explanation of UI and controls in general
+When the game starts, the player sees the main menu screen, which consists of an exit button on the left and a start button in the middle. Other than these two buttons, there is also a credits button that takes the player to the credits screen, and a level select button so players can enjoy different levels again. The start button initiates the first level of the game. A brief explanation of the buttons is introduced when the game starts, At any time players can quit the game and go back to the menu screen. When a player completes the game, they see the end screen where they can choose to go back to the main menu.
+
+The controls are explained before the first level starts. The boat can move forward by pressing `W`, `A` and `D` make the boat turn simultaneously with the camera, so the camera always looks straight at the boat. When the `SPACE` button is pressed, a cannon fires straight from the boat, going in a straight line, affected by gravity. If this cannon collides with an object the cannon is destroyed. And if the object was an enemy, the enemy also gets destroyed.
+
+As mentioned in the introduction, various control methods were considered for the game, including additional buttons for various actions such as speeding up, cannons that possibly face the sides instead of forward, complex cannon controls and alternative methods for controlling how the boat turns, such as turning by moving the mouse (like in most 3rd person games), or independent camera controls through mouse movements. In the end the most simplistic control method was preferred due to how intuitive it was during testing, and how it fits the simple and cartoonish aesthetic of the game.
 
 ## Objects and Entities
 
@@ -86,4 +90,10 @@ Project is created with:
 
 ## Contributions of Team Members
 
-A description of the contributions made by each member of the group. Briefly mention the contributions of team members.
+During the project, every member took responsibility of different aspects of the project. That isn't to say they were expected to work on that task alone, but that they had final say and governance on that task. Other members were allowed and encouraged to work on the same tasks when needed.
+
+Since the same worked for us in Project 1, the team once again split into two main responsibilities. While Edward and Bixin focused on the gameplay aspects such as the player, camera and enemies; Zhirui and Mehmet focused on building the environments for various levels and the shaders. As mentioned in the Team Members section, each member took responsibility of a task within this division, and we got together to combine our efforts routinely in order to make sure everyone was on the same page.
+
+Toward the end of the project, once the basics of the game was finalised, Edward took responsibility to fine tune the game and polish the game to its final form, with the help of evaluations we received, especially focusing on Enemy AI. Bixin single handedly created the demo video that was required and kept working on perfecting the UI. Zhirui focused on the environment by finalising the shaders, illumination and skybox. And Mehmet focused on the documentation, writing the report and the evaluations.
+
+In the end we are proud of the game we created. All of us wish we had more time to delve deeper into making the game look and feel the way we had envisioned it, but we had to make sacrifices along the way due to time restrictions and other responsibilities. We are aware of some of the aspects that could have been better, and we tried to focus on changing aspects that were not well received during evaluations, while trying to improve upon what testers found enjoyable.
