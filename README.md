@@ -1,91 +1,67 @@
 **The University of Melbourne**
 # COMP30019 – Graphics and Interaction
 
-Final Electronic Submission (project): **4pm, Fri. 6 November**
-
-Do not forget **One member** of your group must submit a text file to the LMS (Canvas) by the due date which includes the commit ID of your final submission.
-
-You can add a link to your Gameplay Video here but you must have already submit it by **4pm, Sun. 25 October**
+This is Project 2 - Unity Game for COMP30019 Graphics and Interaction.
+The game is called "The Adventure of Mr. Boaty McBoatface".
+A gameplay video and demo of the game can be found in the following link:
+https://www.youtube.com/watch?v=FDcy9M_bOSY&t=1s
 
 # Project-2 README
-
-You must modify this `README.md` that describes your application, specifically what it does, how to use it, and how you evaluated and improved it. 
-
-Remember that _"this document"_ should be `well written` and formatted **appropriately**. This is just an example of different formating tools available for you. For help with the format you can find a guide [here](https://docs.github.com/en/github/writing-on-github).
-
-
-**Get ready to complete all the tasks:**
-
-- [x] Read the handout for Project-2 carefully
-
-- [ ] Brief explanation of the game
-
-- [ ] How to use it (especially the user interface aspects)
-
-- [ ] How you modelled objects and entities
-
-- [ ] How you handled the graphics pipeline and camera motion
-
-- [ ] Descriptions of how the shaders work
-
-- [ ] Description of the querying and observational methods used, including: description of the participants (how many, demographics), description of the methodology (which techniques did you use, what did you have participants do, how did you record the data), and feedback gathered.
-
-- [ ] Document the changes made to your game based on the information collected during the evaluation.
-
-- [ ] A statement about any code/APIs you have sourced/used from the internet that is not your own.
-
-- [ ] A description of the contributions made by each member of the group.
 
 ## Table of contents
 * [Team Members](#team-members)
 * [Explanation of the game](#explanation-of-the-game)
+* [How to Guide](#how-to-guide)
+* [Objects and Entities](#objects-and-entities)
+* [Graphics Pipeline and Camera](#graphics-pipeline-and-camera)
+* [Shaders](#shaders)
+* [Evaluation](#evaluation)
 * [Technologies](#technologies)
-* [Using Images](#using-images)
-* [Code Snipets ](#code-snippets)
+* [Contributions of Team Members](#contributions-of-team-members)
 
 ## Team Members
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Edward Marozzi  | MainScene     |  Done |
-| Bixin Li    | Shader      |  Testing |
-| Student Name 3    | README Format      |  Amazing! |
+| Edward Marozzi  | Enemy & Enemy AI     |  Done |
+| Bixin Li    | Player Controls & Camera      |  Done |
+| Zhirui Xin    | Environments & Scenes      |  Done |
+| Mehmet Koseoglu    | Water Effects & Documentation      |  Done |
 
 ## Explanation of the game
-Our game is a first person shooter (FPS) that....
 
-You can use emojis :+1: but do not over use it, we are looking for professional work. If you would not add them in your job, do not use them here! :shipit:
+Mr. Boaty McBoatface, is a third person shooter that consists of three levels. In the game, the player controls a small toy boat, that can move around with the `WASD` buttons, and shoot cannons by pressing the `SPACE` button. The Camera is in a fixed position with respect to the boat, and rotates with the boat when the boat turns.
 
+In the initial level, the boat is inside a bathtub in a bathroom, and it gets attacked by rubber ducks. The player needs to survive for a set amount of time to pass the level. The player can also shoot the ducks in order to survive. When the timer ends, the first level ends, and the next level begins.
+
+In the second level, the boat is located in a big pool. This gives the player more room to play in. There are also the addition of enemy ships, which are programmed to shoot when they are a predetermined distance away from the player. If they are far away, they try to move towards the player. The player needs to survive without running out of health.
+
+In the final level, the boat is located in an ocean and it is fighting against a giant rubber duck. This is the final boss of the game that the players will need to defeat in order to complete the game.
+
+The game went through a few iterations with respect to how the player should move, how the camera should behave, and what the levels should look like. We experimented with various controls such as a free moving cam that can be controlled with the mouse, that is always in the same spot with respect to the ship. A stationary camera above the game environment was also tested. We found that a fixed camera that rotates with the ship was the most intuitive and fitting for the simplicity of the game.
+
+We wanted to keep the controls simple. We considered side cannons for the player ship and the enemy ships, but this was not implemented due to increased difficulty when aiming. Instead the ships shoot from their fronts.
+
+Along with gameplay changes, various graphical changes were also implemented, such as: how the water should behave in different environments to make it realistic but still fitting the cartoonish style of the game, and adjusting the detail present in the environment so the player sees the world through the eyes of a toy ship while not having too much detail that would slow down the game.
+
+These changes were made either due to the evaluations the game received, or internal testing. The final implementation of each of these components will be discussed further in the following sections, as well as a brief overview of the evaluations received that caused various changes.
+
+## How to Guide
+
+## Objects and Entities
+
+## Graphics Pipeline and Camera
+
+## Shaders
+
+## Evaluation
+Description of the querying and observational methods used, including: description of the participants (how many, demographics), description of the methodology (which techniques did you use, what did you have participants do, how did you record the data), and feedback gathered.
 
 ## Technologies
+A statement about any code/APIs you have sourced/used from the internet that is not your own
+
 Project is created with:
 * Unity 2019.4.3f1
-* Ipsum version: 2.33
-* Ament library version: 999 
 
-## Using Images
-
-You can use images/gif by adding them to a folder in your repo:
-
-<p align="center">
-  <img src="Gifs/Q1-1.gif"  width="300" >
-</p>
-
-To create a gif from a video you can follow this [link](https://ezgif.com/video-to-gif/ezgif-6-55f4b3b086d4.mov).
-
-## Code Snippets
-
-You can include a code snippet here, but make sure to explain it!
-Do not just copy all your code, only explain the important parts.
-
-```c#
-public class firstPersonController : MonoBehaviour
-{
-    //This function run once when Unity is in Play
-     void Start ()
-    {
-      standMotion();
-    }
-}
-
-```
+## Contributions of Team Members
+A description of the contributions made by each member of the group.
