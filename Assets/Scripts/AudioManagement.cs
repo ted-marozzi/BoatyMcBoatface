@@ -19,6 +19,26 @@ public class AudioManagement : MonoBehaviour
 
     void Start()
     {
+        // Initialize Music Volume Setting
+        if (PlayerPrefs.HasKey("MusicVolume"))
+        {
+            MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("MusicVolume", 100.0f);
+        }
+
+        // Initialize Sound Volume Setting
+        if (PlayerPrefs.HasKey("SoundVolume"))
+        {
+            SoundSlider.value = PlayerPrefs.GetFloat("SoundVolume");
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("SoundVolume", 100.0f);
+        }
+
         // Play Background Music
         Music.Play();
         soundVolume = 1;
@@ -43,6 +63,13 @@ public class AudioManagement : MonoBehaviour
     public void PlayCannonballHitSound()
     {
         CannonballHitSound.PlayOneShot(CannonballHitSound.clip, soundVolume);
+    }
+
+    // Save Settings
+    public void SaveAudioSettings()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", MusicSlider.value);
+        PlayerPrefs.SetFloat("SoundVolume", SoundSlider.value);
     }
 
     // Volume Management
