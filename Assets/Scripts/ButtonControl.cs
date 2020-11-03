@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class ButtonControl : MonoBehaviour
 {
+    // Menus and UIs
     public GameObject quitConform;
     public GameObject levelsMenu;
     public GameObject creditsMenu;
     public GameObject settingsMenu;
     public GameObject tutorialMessage;
+
+    // Level Manager Object
     public GameObject LevelControl;
 
     string levelOne = "Level1";
@@ -85,6 +88,7 @@ public class ButtonControl : MonoBehaviour
     public void ShowCreditsMenu()
     {
         creditsMenu.SetActive(true);
+        creditsMenu.GetComponent<CreditMenuManagement>().ShowPage1();
     }
     public void CloseCreditsMenu()
     {
