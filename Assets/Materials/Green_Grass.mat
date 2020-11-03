@@ -70,7 +70,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.029
-    - _RimAmount: 1
+    - _RimAmount: 2
     - _SmoothnessTextureChannel: 1
     - _Specular: 0
     - _SpecularHighlights: 1

@@ -56,13 +56,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Ambient: 2.82
+    - _Ambient: 0.9
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _Diffuse: 0.948
+    - _Diffuse: 1
     - _DstBlend: 0
-    - _Gloss: 73
+    - _Gloss: 70
     - _GlossMapScale: 1
     - _Glossiness: 0.8
     - _GlossyReflections: 1
@@ -72,7 +72,7 @@ Material:
     - _Parallax: 0.02
     - _RimAmount: 0.628
     - _SmoothnessTextureChannel: 0
-    - _Specular: 0.411
+    - _Specular: 0.496
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
@@ -80,4 +80,4 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _RimColor: {r: 1, g: 0.725698, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0.9028857, b: 0.6462264, a: 1}

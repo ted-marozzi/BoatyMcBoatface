@@ -18,7 +18,7 @@ Shader "Custom/Waves 1.3"
 		_Gloss("GlossConstant", Range(1,256)) = 20
 		_Specular("SpecularPower", Range(0,1)) = 1
         _Transparency ("Transparency",Range(0,1)) = 0.9
-        _Ambient("AmbientPower", Range(0,10)) = 3
+        _Ambient("AmbientPower", Range(0,1)) = 1
 
 
 
