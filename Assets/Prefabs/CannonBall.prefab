@@ -113,7 +113,7 @@ MonoBehaviour:
   rb: {fileID: -764671934133060507}
   velocity: 0.7
   tagToDamage: Enemy
-  explodeAudio: {fileID: 4956138355687454268}
+  SoundLength: 1.8
 --- !u!54 &-764671934133060507
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3506913418879546277}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 87efa391991dead419ea419386e6cc37, type: 3}

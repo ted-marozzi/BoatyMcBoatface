@@ -11,14 +11,15 @@ public class CannonBall : MonoBehaviour
     public float velocity;
     public string tagToDamage = "Enemy";
 
-    //Sound Effect
-    public AudioSource explodeAudio;
+    // Sound Source
+    GameObject AudioManager;
+    public float SoundLength = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        explodeAudio = GetComponent<AudioSource>();
+        AudioManager = GameObject.Find("AudioManager");
     }
 
     // Update is called once per frame
@@ -34,7 +35,7 @@ public class CannonBall : MonoBehaviour
         if (col.tag != "ParticleSystem")
         {
             // Play sound
-            explodeAudio.PlayOneShot(explodeAudio.clip, 1.0F);
+            AudioManager.GetComponent<AudioManagement>().PlayCannonFireSound();
 
             // Explosion Effect
             GameObject obj = Instantiate(this.createOnDestroy);
@@ -42,7 +43,8 @@ public class CannonBall : MonoBehaviour
 
             // Set invisible, wait for sound clip to finish, then destroy self
             this.GetComponent<Renderer>().enabled = false;
-            Destroy(gameObject, explodeAudio.clip.length);
+            this.GetComponent<Collider>().enabled = false;
+            Destroy(gameObject, SoundLength);
 
             if (col.gameObject.tag == tagToDamage)  {
                 Destroy(col.gameObject);

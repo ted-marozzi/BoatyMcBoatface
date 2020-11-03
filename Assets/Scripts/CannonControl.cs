@@ -12,8 +12,8 @@ public class CannonControl : MonoBehaviour
     public float fireInterval;
     float timecount;
 
-    // Sound Effect
-    AudioSource fireAudio;
+    // Sound Source
+    public GameObject AudioManager;
 
     // Particle Effect
     public GameObject fireEffect;
@@ -21,7 +21,7 @@ public class CannonControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fireAudio = GetComponent<AudioSource>();
+        //fireAudio = GetComponent<AudioSource>();
         timecount = 0.0f;
     }
 
@@ -38,7 +38,8 @@ public class CannonControl : MonoBehaviour
             Vector3 cannonPos = this.transform.localPosition + (transform.right * cannonOffset.x) + (transform.up * cannonOffset.y) + (transform.forward * cannonOffset.z);
 
             //Effects
-            fireAudio.PlayOneShot(fireAudio.clip, 0.7F);
+            //fireAudio.PlayOneShot(fireAudio.clip, 0.7F);
+            AudioManager.GetComponent<AudioManagement>().PlayCannonFireSound();
             GameObject obj = Instantiate(this.fireEffect);
             obj.transform.SetParent(this.transform);
             obj.transform.position = cannonPos;
