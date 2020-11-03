@@ -45,9 +45,12 @@ public class CannonBall : MonoBehaviour
             this.GetComponent<Renderer>().enabled = false;
             this.GetComponent<Collider>().enabled = false;
             Destroy(gameObject, SoundLength);
-
+            
             if (col.gameObject.tag == tagToDamage)  {
-                Destroy(col.gameObject);
+                if (col.gameObject.GetComponentInChildren<Animator>())
+                {
+                    col.gameObject.GetComponentInChildren<Animator>().enabled = true;
+                }
             }	           
         
         }
