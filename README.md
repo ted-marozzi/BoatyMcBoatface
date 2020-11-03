@@ -68,13 +68,41 @@ The camera entity will be explained in detail in the following section.
 
 ## Graphics Pipeline and Camera
 
-Graphics Pipeline? Details on camera
+#### Graphics Pipeline
+
+As advised in the lectures, the intensive tasks of illuminating the objects and the vertex shader that creates the wave effects are all done in the GPU, so the game can run smoothly. We experimented with buoyancy that would effectively be moving fixed points on the objects in the same manner as the function that displaces the wave. This would make the objects on the water surface behave in sync with the waves and give the illusion of buoyancy. For this, each object has 3-4 points that repeat what the vertex shader does, in the CPU but since it is only a few points in total, compared to every single point like in the vertex shader and illumination, it is not as intensive for the CPU. This effect will be tested and if possible, be implemented before the due date.
+
+#### Camera
+
+As mentioned in the explanation of the game, several camera placements and control options were tested. Among those tested, the main contenders were:
+
+* A fixed camera that looks down at the entire environment.
+* A camera that is always in the same spot relative to the player, but can be controlled via mouse movements
+* A stationary camera that is in the same spot relative to the player, that always points straight at the player boat
+
+Among these the final option of having the camera move with the boat, and not have independent controls received the best results from testers. This was due to the relative miniature size of the boat compared to the environment being highlighted, as well as the ease of control. Some users expected the camera to be moved with the mouse, as it usually is in most third person games. These users found the gameplay less than ideal but still engaging and playable. More detail about testing and feedback can be found in the Evaluation section. 
 
 ## Shaders
 
-Two main shaders are used in our game. One is the Unity Toon Shader, that gives the objects their glossy cartoonish look, and the other is the water shader that gives it the realistic waves effect. The shaders work with the Phong illumination model. Along with the shaders, there are various particle effects for when objects get destroyed, or fog effects in various environments.
+Two main shaders are used in our game. One is the Phong Illumination Shader, that gives the objects their glossy cartoonish look, and the other is the water shader that gives it the realistic waves effect. Along with the shaders, there are various shaders for clouds and shadows in outdoor levels, and particle effects for steam and fog, as well as effects for when objects get destroyed.
 
-Explain shaders and illumination in detail
+#### Illumination
+
+The Phong Illumination that is implemented in this project is applied to every object and it is based on a Toon Shader that we came across online. This shader gives the objects in the game their glossy, bright look. The inspiration for this illumination style came from the following source: https://roystan.net/articles/toon-shader.html
+
+#### Water
+
+For the water effects, we experimented with texture distortion and waves. Texture distortion has smaller changes in where the height of every point is rendered, compared to waves. In the end we decided to go with waves instead, due to the camera being so close to the player boat. The water shader was not visible enough for the user otherwise. The wave shader used is similar to what our team used in project 1, with a few improvements.
+
+Once again the shader uses Gerstner Waves instead of regular sine waves. This slightly more advanced wave allows for a rolling effect on the water surface, and can easily be combined with numerous other gerstner waves to have a realistic water surface. The wave shader is used across all levels with slight changes depending on the perceived size of the environment. The source of the water shaders we experimented with can be found in the following website: https://catlikecoding.com/unity/tutorials/flow/
+
+#### Particle Effects
+
+The main particle effects that are used in our game are for steam, smoke and explosion rubble. The first two (steam and smoke) are used in the levels to create a better and more engaging atmosphere. The explosion rubble effect is used when enemies are destroyed.
+
+#### Skybox and Clouds
+
+Finally we used a skybox that looks realistic but not too crowded, along with clouds that cast a shadow on the game area. These features are added to have an interesting environment that is not bland and boring while not being too distracting for the player. Since the game is simple, we wanted the visuals and the fact that the player is a miniature boat exploring a large world, be the focus of the game.
 
 ## Evaluation
 
