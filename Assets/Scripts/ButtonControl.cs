@@ -38,6 +38,10 @@ public class ButtonControl : MonoBehaviour
     {
         SceneManager.LoadScene(levelTwo);
     }
+    public void LoadLevelThree()
+    {
+        SceneManager.LoadScene(levelThree);
+    }
     public void LoadMainMenu()
     {
         SceneManager.LoadScene(MainMenu);
