@@ -10,6 +10,7 @@ public class ButtonControl : MonoBehaviour
     public GameObject quitConform;
     public GameObject levelsMenu;
     public GameObject creditsMenu;
+    public GameObject settingsMenu;
     public GameObject tutorialMessage;
     public GameObject LevelControl;
 
@@ -36,6 +37,10 @@ public class ButtonControl : MonoBehaviour
     public void LoadLevelTwo()
     {
         SceneManager.LoadScene(levelTwo);
+    }
+    public void LoadLevelThree()
+    {
+        SceneManager.LoadScene(levelThree);
     }
     public void LoadMainMenu()
     {
@@ -64,6 +69,16 @@ public class ButtonControl : MonoBehaviour
     public void CloseLevelsMenu()
     {
         levelsMenu.SetActive(false);
+    }
+
+    // Settings Menu
+    public void ShowSettingsMenu()
+    {
+        settingsMenu.SetActive(true);
+    }
+    public void CloseSettingsMenu()
+    {
+        settingsMenu.SetActive(false);
     }
 
     // Credits Menu
