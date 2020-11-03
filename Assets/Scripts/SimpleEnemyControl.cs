@@ -9,7 +9,7 @@ public class SimpleEnemyControl : MonoBehaviour
 
     public KeyCode fireKey;
     private bool chasePlayer = true;
-    private float speed = 10.0f;
+    private float speed = 0.1f;
     public GameObject player;
     private float timer = 0f;
     Rigidbody rb;
