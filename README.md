@@ -80,7 +80,7 @@ As mentioned in the explanation of the game, several camera placements and contr
 * A camera that is always in the same spot relative to the player, but can be controlled via mouse movements
 * A stationary camera that is in the same spot relative to the player, that always points straight at the player boat
 
-Among these the final option of having the camera move with the boat, and not have independent controls received the best results from testers. This was due to the relative miniature size of the boat compared to the environment being highlighted, as well as the ease of control. Some users expected the camera to be moved with the mouse, as it usually is in most third person games. These users found the gameplay less than ideal but still engaging and playable. More detail about testing and feedback can be found in the Evaluation section. 
+Among these the final option of having the camera move with the boat, and not have independent controls received the best results from testers. This was due to the relative miniature size of the boat compared to the environment being highlighted, as well as the ease of control. Some users expected the camera to be moved with the mouse, as it usually is in most third person games. These users found the gameplay less than ideal but still engaging and playable. More detail about testing and feedback can be found in the Evaluation section.
 
 ## Shaders
 
@@ -106,7 +106,20 @@ Finally we used a skybox that looks realistic but not too crowded, along with cl
 
 ## Evaluation
 
-Description of the querying and observational methods used, including: description of the participants (how many, demographics), description of the methodology (which techniques did you use, what did you have participants do, how did you record the data), and feedback gathered.
+During the development of the game, before the project was finalised, the game was tested by volunteers that were willing to try the game and answer a few questions. Two sessions of evaluations were done, with none of the participants attending both sessions. The first sessions was an Observational Evaluation in the form of an interview with the users. The second session was in the form of a questionnaire, which consisted of 10 questions, and resulted in a score out of 100 for each tester. The following section explains the evaluation method performed, the feedback received, the changes implemented due to the feedback and the demographic of attendees.
+
+#### Observational Evaluation - Interview
+
+The Observational Evaluation was performed on 5 different volunteers. Details on the volunteers like their gender, age, occupation, and how often they play games can be found in the following link, along with the feedback they gave:
+https://docs.google.com/spreadsheets/d/15s1P81z5PMBD3wThfoDwGw6tzvZ6cSav_Fd_MvWyszc/edit?usp=sharing
+
+3 out of 5 participant in the observational study were male, and 2 participant were female. Their age average was 27. 4 out of 5 claimed they play games daily, and one claimed they play games weekly. The evaluation asked players to play the first two levels of the game, due to the final level not being ready when the evaluation was performed. The participants were asked questions about the level, what their goal was, how they were completing their goal and why they were performing the actions that they were performing. Along with their responses, possible bugs or issues were noted as well.
+
+We preferred this method of observational evaluation due to the simplicity of our game. Such a method might have been difficult if the game required complex actions. Also by answering questions while playing the game, their opinions were fresh and casual. The information gathered at this session shaped some of the key features of the game, and how various aspects such as camera control, speed of the player and movement of enemies were fine tuned.
+
+#### Query Evaluation - Questionnaire
+
+
 
 ## Technologies
 
