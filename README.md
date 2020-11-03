@@ -113,21 +113,27 @@ During the development of the game, before the project was finalised, the game w
 The Observational Evaluation was performed on 5 different volunteers. Details on the volunteers like their gender, age, occupation, and how often they play games can be found in the following link, along with the feedback they gave:
 https://docs.google.com/spreadsheets/d/15s1P81z5PMBD3wThfoDwGw6tzvZ6cSav_Fd_MvWyszc/edit?usp=sharing
 
-3 out of 5 participant in the observational study were male, and 2 participant were female. Their age average was 27. 4 out of 5 claimed they play games daily, and one claimed they play games weekly. The evaluation asked players to play the first two levels of the game, due to the final level not being ready when the evaluation was performed. The participants were asked questions about the level, what their goal was, how they were completing their goal and why they were performing the actions that they were performing. Along with their responses, possible bugs or issues were noted as well.
+3 out of 5 participant in the observational study were male, and 2 participant were female. Their age average was 27.2. 4 out of 5 claimed they play games daily, and one claimed they play games weekly. The evaluation asked players to play the first two levels of the game, due to the final level not being ready when the evaluation was performed. The participants were asked questions about the level, what their goal was, how they were completing their goal and why they were performing the actions that they were performing. Along with their responses, possible bugs or issues were noted as well.
 
 We preferred this method of observational evaluation due to the simplicity of our game. Such a method might have been difficult if the game required complex actions. Also by answering questions while playing the game, their opinions were fresh and casual. The information gathered at this session shaped some of the key features of the game, and how various aspects such as camera control, speed of the player and movement of enemies were fine tuned.
 
 #### Query Evaluation - Questionnaire
 
+For the Query Evaluation, a questionnaire of 10 questions was prepared. The questionnaire included questions from similar questionnaires that focused on user experience and usability. 5 of the questions were positive and 5 were negative, and each question would be answered with a number from 1 to 5, 1 representing strongly disagree, and 5 representing strongly agree. The data on participants and their feedback can be found in the following link:
+https://docs.google.com/spreadsheets/d/1vfUzc1E4kwl1uiQgPP4BZ0X3KmxF5EIeuL662xEXXw0/edit?usp=sharing
 
+With the provided feedback, a total score out of 100 could be calculated for each participant. A total of 10 participants attended the session. None of which had seen the game before. 6 of the participants were Male, and 4 were female. Their age average was 29.9, 3 participants claimed they played games daily, 5 answered weekly, 1 answered monthly and 1 answered occasionally. The lowest score among the participants was 75, and the highest was 100. We assume these scores were biased, considering the attendees were family and friends, and they were aware the game was for a school project. The average score for all 10 participants was **89.75**.
+
+This evaluation was performed later in the games development, so the questions were aimed toward fine tuning some of the features, instead of making big changes. We wanted to see how the game would be received closer to its final form. We decided on a questionnaire due to its ease of use, hoping for a larger number of volunteers to participate compared to the observational evaluation.
 
 ## Technologies
 
-A statement about any code/APIs you have sourced/used from the internet that is not your own
-talk about the shaders found online, how waves were implemented, models that were found online etc.
+The project was created with `Unity 2019.4.3f1`
+Various online articles, websites and tutorials were explored during development. The sources of inspiration for the illumination model and shaders were mentioned in detail in the Shaders section.
 
-Project is created with:
-* Unity 2019.4.3f1
+The models, sounds and UI elements used are all free to use, and the creator is given credit in both the credits section of the game, as well as in the following document:
+https://docs.google.com/document/d/1qZcus2QuRUVmayrbVskIxwgNyBjR7xuz6crLTubMabs/edit?usp=sharing
+The document also contains two soundtracks from other games that were used in the demo footage that are copyrighted. They were not used in the game, and are only used in the video briefly.
 
 ## Contributions of Team Members
 
