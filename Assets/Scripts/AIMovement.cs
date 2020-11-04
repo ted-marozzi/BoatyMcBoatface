@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 
 public class AIMovement : MonoBehaviour
 {
-    private float moveForce = 0.5f;
+    private float moveForce = 50f;
     private float chanceDirChange = 0.25f;
     public int seed = 1;
 
 
     private int rotDir = 1;
-    private float maxDistWall = 75f, rotScale = 0.25f, timer = 0f;
+    private float maxDistWall = 1f, rotScale = 70f, timer = 0f;
     
     
     
@@ -47,7 +44,7 @@ public class AIMovement : MonoBehaviour
             if( ranDouble < chanceDirChange)
             {
                 rotDir = -1;
-                //Debug.Log("Hi this is less than");
+          
             } else if (ranDouble >= chanceDirChange && ranDouble <= 1 - chanceDirChange) {
                 rotDir = 0;
             } else {
@@ -57,9 +54,10 @@ public class AIMovement : MonoBehaviour
         }
 
         keepFlat();
-        float rayAng = 30f;
+        float rayAng = 100f;
         Vector3 leftRay = Quaternion.Euler(0, rayAng, 0) * transform.forward;
         Vector3 rightRay = Quaternion.Euler(0, rayAng, 0) * transform.forward;
+
         if(
             Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid)
             || Physics.Raycast(transform.position, transform.forward, maxDistWall, toAvoid)
@@ -67,14 +65,14 @@ public class AIMovement : MonoBehaviour
 
         )
         {
-            //Debug.Log("Trying to avoid wall");
-            transform.Rotate(0, rotScale, 0);
+      
+            transform.Rotate(0, rotScale*Time.deltaTime, 0);
         } else {
-            transform.Rotate(0, rotScale*rotDir, 0);
+            transform.Rotate(0, rotScale*rotDir*Time.deltaTime, 0);
         } 
 
         moveDir = transform.forward;
-        rigidbody.velocity = moveDir*moveForce;
+        rigidbody.velocity = moveDir*moveForce*Time.deltaTime;
 
         
     }
