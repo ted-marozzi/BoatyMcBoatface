@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 2ab7e8c583cca2143a3b08ab2b0223db
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - duckTemplate: {fileID: 4997117180488770345, guid: 6136cccdbf2c2e649b6373e7f277b8df,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
